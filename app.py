@@ -1,90 +1,76 @@
-from flask import Flask, request, render_template
+import os
 import csv
 import random
-import os
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(BASE_DIR, "oscars.csv")
-
-# Easy categories
-EASY_CATEGORIES = [
-    "ACTOR IN A LEADING ROLE",
-    "ACTRESS IN A LEADING ROLE",
-    "BEST PICTURE",
-    "DIRECTING",
-    "DIRECTING (Dramatic Picture)",
-    "DIRECTING (Comedy Picture)"
-]
-
-# Load winners from CSV
+# Load Oscar winners CSV into a list of dictionaries
 def load_winners():
-    with open(csv_path, newline="", encoding="utf-8") as f:
+    winners = []
+    with open("oscars.csv", newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        return [row for row in reader if row["winner"].lower() == "true"]
+        for row in reader:
+            winners.append(row)
+    return winners
 
-ALL_WINNERS = load_winners()
-EASY_WINNERS = [row for row in ALL_WINNERS if row["canon_category"] in EASY_CATEGORIES]
+winners_data = load_winners()
 
-def format_category(category):
-    if "DIRECTING" in category:
-        return "BEST DIRECTOR"
-    if category == "ACTOR IN A LEADING ROLE":
-        return "BEST ACTOR"
-    if category == "ACTRESS IN A LEADING ROLE":
-        return "BEST ACTRESS"
-    return category
+# Define easy categories
+EASY_CATEGORIES = ["ACTOR IN A LEADING ROLE", "ACTRESS IN A LEADING ROLE", "BEST PICTURE", "DIRECTOR"]
 
 @app.route("/", methods=["GET", "POST"])
 def quiz():
-    mode = request.args.get("mode", "easy")
-    if mode == "hard":
-        winners = ALL_WINNERS
-        toggle_mode = "easy"
-        toggle_label = "Switch to Easy Mode"
+    mode = request.values.get("mode", "easy")
+    show_next = False
+    result = None
+
+    # Filter by mode
+    if mode == "easy":
+        data = [w for w in winners_data if w["canon_category"] in EASY_CATEGORIES]
     else:
-        winners = EASY_WINNERS
-        toggle_mode = "hard"
-        toggle_label = "Switch to Hard Mode"
+        data = winners_data
 
+    # If form submitted, check answer
     if request.method == "POST":
-        correct_answer = request.form.get("correct_answer", "")
-        category = request.form.get("category", "")
-        year = request.form.get("year", "")
+        user_answer = request.form.get("answer", "").strip().lower()
+        correct_answer = request.form.get("correct_answer", "").strip().lower()
+        category = request.form.get("category")
+        year = request.form.get("year")
         film = request.form.get("film", "")
-        mode = request.form.get("mode", mode)
-        user_answer = request.form.get("answer", "")
 
-        if user_answer.strip().lower() in correct_answer.lower():
-            result = f"Correct! {correct_answer} won for '{film}'."
+        if user_answer == correct_answer:
+            result = f"Correct! {correct_answer.title()} won in {year} for {film}."
         else:
-            result = f"Incorrect. Correct answer: {correct_answer} (won for '{film}')"
+            result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
 
-        return render_template("quiz.html",
-                               mode=mode,
-                               toggle_mode=toggle_mode,
-                               toggle_label=toggle_label,
-                               question=f"Who won {category} in {year}?",
-                               result=result,
-                               show_next=True)
+        show_next = True
 
-    # GET: new question
-    row = random.choice(winners)
-    category = format_category(row["canon_category"])
-    question = f"Who won {category} in {row['year_ceremony']}?"
+    # Pick a new question
+    question_item = random.choice(data)
+    question = f"Who won {question_item['canon_category']} in {question_item['year_ceremony']}?"
+    correct_answer = question_item["name"]
+    category = question_item["canon_category"]
+    year = question_item["year_ceremony"]
+    film = question_item["film"]
 
-    return render_template("quiz.html",
-                           mode=mode,
-                           toggle_mode=toggle_mode,
-                           toggle_label=toggle_label,
-                           question=question,
-                           correct_answer=row['name'],
-                           category=category,
-                           year=row['year_ceremony'],
-                           film=row['film'],
-                           result=None,
-                           show_next=False)
+    # Determine toggle labels
+    toggle_mode = "hard" if mode == "easy" else "easy"
+    toggle_label = "Switch to Hard Mode" if mode == "easy" else "Switch to Easy Mode"
+
+    return render_template(
+        "quiz.html",
+        question=question,
+        correct_answer=correct_answer,
+        category=category,
+        year=year,
+        film=film,
+        result=result,
+        show_next=show_next,
+        mode=mode,
+        toggle_mode=toggle_mode,
+        toggle_label=toggle_label
+    )
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
