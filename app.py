@@ -57,9 +57,9 @@ def quiz():
         user_answer = request.form.get("answer", "")
 
         if user_answer.strip().lower() in correct_answer.lower():
-            result = f"✅ Correct! {correct_answer} won for '{film}'."
+            result = f"Correct! {correct_answer} won for '{film}'."
         else:
-            result = f"❌ Incorrect. Correct answer: {correct_answer} (won for '{film}')"
+            result = f"Incorrect. Correct answer: {correct_answer} (won for '{film}')"
 
         return render_template("quiz.html",
                                mode=mode,
