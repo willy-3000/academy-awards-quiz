@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Academy Awards Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Academy Awards Quiz ({{ mode.capitalize() }} Mode)</h1>
+
+        <a class="toggle" href="/?mode={{ toggle_mode }}">{{ toggle_label }}</a>
+
+        <p class="question">{{ question }}</p>
+
+        {% if result %}
+        <p class="result">{{ result }}</p>
+        {% else %}
+        <form method="POST">
+            <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+            <input type="hidden" name="category" value="{{ category }}">
+            <input type="hidden" name="year" value="{{ year }}">
+            <input type="hidden" name="film" value="{{ film }}">
+            <input type="hidden" name="mode" value="{{ mode }}">
+            <input type="text" name="answer" placeholder="Your answer" class="answer-input">
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+        {% endif %}
+
+        {% if show_next %}
+        <a class="next" href="/?mode={{ mode }}">Next Question</a>
+        {% endif %}
+    </div>
+</body>
+
+</html>
