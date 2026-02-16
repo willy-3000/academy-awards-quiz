@@ -42,10 +42,6 @@ h1 {
     border-radius: 5px;
 }
 
-.skip {
-    display: inline-block;
-}
-
 .submit-btn,
 .toggle,
 .next,
