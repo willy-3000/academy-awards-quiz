@@ -47,6 +47,7 @@ h1 {
 .next,
 .skip {
     display: inline-block;
+    width: 33%;
     padding: 10px 20px;
     margin: 10px 5px 0 0;
     font-size: 1em;
