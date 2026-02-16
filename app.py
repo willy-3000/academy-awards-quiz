@@ -23,6 +23,7 @@ EASY_CATEGORIES = ["ACTOR IN A LEADING ROLE", "ACTRESS IN A LEADING ROLE", "BEST
 def quiz():
     mode = request.values.get("mode", "easy")
     show_next = False
+    show_skip = True
     result = None
 
     # Filter by mode
@@ -43,7 +44,8 @@ def quiz():
             result = f"Correct! {correct_answer.title()} won in {year} for {film}."
         else:
             result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
-
+        
+        show_skip = False
         show_next = True
 
     # Pick a new question

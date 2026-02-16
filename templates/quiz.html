@@ -34,9 +34,11 @@
         <a class="next" href="/?mode={{ mode }}">Next Question</a>
         {% endif %}
 
+        {% if show_skip %}
         <div class="skip" onclick="location.reload()">
             Skip
         </div>
+        {% endif %}
     </div>
 </body>
 
