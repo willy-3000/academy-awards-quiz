@@ -43,7 +43,7 @@ h1 {
 }
 
 .skip {
-    float: right;
+    display: inline-block;
 }
 
 .submit-btn,
