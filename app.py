@@ -69,6 +69,7 @@ def quiz():
         film=film,
         result=result,
         show_next=show_next,
+        show_skip=show_skip,
         mode=mode,
         toggle_mode=toggle_mode,
         toggle_label=toggle_label
