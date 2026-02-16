@@ -30,15 +30,17 @@
         </form>
         {% endif %}
 
-        {% if show_next %}
-        <a class="next" href="/?mode={{ mode }}">Next Question</a>
-        {% endif %}
-
         {% if show_skip %}
         <div class="skip" onclick="location.reload()">
             Skip
         </div>
         {% endif %}
+
+        {% if show_next %}
+        <a class="next" href="/?mode={{ mode }}">Next Question</a>
+        {% endif %}
+
+
     </div>
 </body>
 
