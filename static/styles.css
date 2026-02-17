@@ -9,7 +9,7 @@ body {
 .result.correct {
     font-size: 1.1em;
     padding: 10px;
-    background-color: #4CAF50CC;
+    background-color: #4CAF50DD;
     color: white;
     border-radius: 5px;
     margin: 10px 0;
@@ -18,7 +18,7 @@ body {
 .result.wrong {
     font-size: 1.1em;
     padding: 10px;
-    background-color: #e53935CC;
+    background-color: #e53935DD;
     color: white;
     border-radius: 5px;
     margin: 10px 0;
