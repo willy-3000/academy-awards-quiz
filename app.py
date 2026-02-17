@@ -63,10 +63,7 @@ def quiz():
         show_next = True
 
         # KEEP SAME QUESTION
-        if question_item["canon_category"] == "BEST PICTURE":
-            question = f"What film won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
-        else:
-            question = f"Who won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
+        question = request.form.get("question")
 
     else:
         # Generate new question only on GET
