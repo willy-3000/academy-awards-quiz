@@ -63,7 +63,10 @@ def quiz():
         show_next = True
 
         # KEEP SAME QUESTION
-        question = f"Who won {category} in {year}?"
+        if question_item["canon_category"] == "BEST PICTURE":
+            question = f"What film won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
+        else:
+            question = f"Who won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
 
     else:
         # Generate new question only on GET
