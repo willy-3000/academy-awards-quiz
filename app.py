@@ -32,39 +32,27 @@ def quiz():
         data = winners_data
 
     if request.method == "POST":
-            user_answer = request.form.get("answer", "").strip().lower()
-            correct_answer = request.form.get("correct_answer", "").strip().lower()
-            category = request.form.get("category")
-            year = request.form.get("year")
-            film = request.form.get("film", "")
-
-            if user_answer == correct_answer:
-                result = f"Correct! {correct_answer.title()} won in {year} for {film}."
-            else:
-                result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
-            
-            show_skip = False
-            show_next = True
-
-    if request.method == "POST":
+        # Get submitted data
         user_answer = request.form.get("answer", "").strip().lower()
         correct_answer = request.form.get("correct_answer", "").strip().lower()
         category = request.form.get("category")
         year = request.form.get("year")
-        film = request.form.get("film")
+        film = request.form.get("film", "")
 
-    if user_answer == correct_answer:
-        result = f"Correct! {correct_answer.title()} won in {year} for {film}."
+        # Check answer
+        if user_answer == correct_answer:
+            result = f"Correct! {correct_answer.title()} won in {year} for {film}."
+        else:
+            result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
+
+        show_skip = False
+        show_next = True
+
+        # KEEP SAME QUESTION
+        question = f"Who won {category} in {year}?"
+
     else:
-        result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
-
-    show_skip = False
-    show_next = True
-
-    # KEEP SAME QUESTION
-    question = f"Who won {category} in {year}?"
-
-    else:
+        # Generate new question only on GET
         question_item = random.choice(data)
         question = f"Who won {question_item['canon_category']} in {question_item['year_ceremony']}?"
         correct_answer = question_item["name"]
@@ -72,8 +60,8 @@ def quiz():
         year = question_item["year_ceremony"]
         film = question_item["film"]
 
-        toggle_mode = "hard" if mode == "easy" else "easy"
-        toggle_label = "Switch to Hard Mode" if mode == "easy" else "Switch to Easy Mode"
+    toggle_mode = "hard" if mode == "easy" else "easy"
+    toggle_label = "Switch to Hard Mode" if mode == "easy" else "Switch to Easy Mode"
 
     return render_template(
         "quiz.html",
@@ -89,6 +77,7 @@ def quiz():
         toggle_mode=toggle_mode,
         toggle_label=toggle_label
     )
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
