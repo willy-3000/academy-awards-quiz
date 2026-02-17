@@ -51,11 +51,15 @@ def quiz():
 
         # Check answer
         if user_answer == correct_answer:
-            result = f"Correct! {correct_answer.title()} won in {year} for {film}."
-            is_correct = True
+            if category == "BEST PICTURE":
+                result = f"Correct! {correct_answer} won in {year}."
+            else:
+                result = f"Correct! {correct_answer} won in {year} for {film}."
         else:
-            result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
-            is_correct = False
+            if category == "BEST PICTURE":
+                result = f"Wrong! The correct answer was {correct_answer} ({year})."
+            else:
+                result = f"Wrong! The correct answer was {correct_answer} for {film}."
 
             
 
