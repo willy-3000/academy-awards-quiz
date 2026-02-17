@@ -55,9 +55,9 @@ def quiz():
         # Generate new question only on GET
         question_item = random.choice(data)
         if question_item["canon_category"] == "BEST PICTURE":
-            question = f"What film won {question_item['canon_category']} in {question_item['year_ceremony']}?"
+            question = f"What film won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
         else:
-            question = f"Who won {question_item['canon_category']} in {question_item['year_ceremony']}?"
+            question = f"Who won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
         if question_item["canon_category"] == "BEST PICTURE":
             correct_answer = question_item["film"]
         else:
