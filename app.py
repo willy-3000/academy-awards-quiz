@@ -33,10 +33,10 @@ def quiz():
         and w["winner"] == "True"
     ]
     else:
-        data = [
-            w for w in winners_data 
-            if w["winner"] == "True"
-        ]
+    data = [
+        w for w in winners_data 
+        if w["winner"] == "True"
+    ]
 
     if request.method == "POST":
         # Get submitted data
