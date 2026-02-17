@@ -32,26 +32,26 @@ def quiz():
         data = winners_data
 
     if request.method == "POST":
+            user_answer = request.form.get("answer", "").strip().lower()
+            correct_answer = request.form.get("correct_answer", "").strip().lower()
+            category = request.form.get("category")
+            year = request.form.get("year")
+            film = request.form.get("film", "")
+
+            if user_answer == correct_answer:
+                result = f"Correct! {correct_answer.title()} won in {year} for {film}."
+            else:
+                result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
+            
+            show_skip = False
+            show_next = True
+
+    if request.method == "POST":
         user_answer = request.form.get("answer", "").strip().lower()
         correct_answer = request.form.get("correct_answer", "").strip().lower()
         category = request.form.get("category")
         year = request.form.get("year")
-        film = request.form.get("film", "")
-
-        if user_answer == correct_answer:
-            result = f"Correct! {correct_answer.title()} won in {year} for {film}."
-        else:
-            result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
-        
-        show_skip = False
-        show_next = True
-
-    if request.method == "POST":
-    user_answer = request.form.get("answer", "").strip().lower()
-    correct_answer = request.form.get("correct_answer", "").strip().lower()
-    category = request.form.get("category")
-    year = request.form.get("year")
-    film = request.form.get("film")
+        film = request.form.get("film")
 
     if user_answer == correct_answer:
         result = f"Correct! {correct_answer.title()} won in {year} for {film}."
