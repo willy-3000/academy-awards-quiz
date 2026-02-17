@@ -24,6 +24,7 @@ def quiz():
     mode = request.values.get("mode", "easy")
     show_next = False
     show_skip = True
+    is_correct = None
     result = None
 
     if mode == "easy":
@@ -46,11 +47,17 @@ def quiz():
         year = request.form.get("year")
         film = request.form.get("film", "")
 
+        is_correct = False
+
         # Check answer
         if user_answer == correct_answer:
             result = f"Correct! {correct_answer.title()} won in {year} for {film}."
+            is_correct = True
         else:
             result = f"Wrong! The correct answer was {correct_answer.title()} for {film}."
+            is_correct = False
+
+            
 
         show_skip = False
         show_next = True
@@ -84,6 +91,7 @@ def quiz():
         year=year,
         film=film,
         result=result,
+        is_correct=is_correct,
         show_next=show_next,
         show_skip=show_skip,
         mode=mode,

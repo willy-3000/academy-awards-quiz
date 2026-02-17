@@ -6,6 +6,24 @@ body {
     padding: 0;
 }
 
+.result.correct {
+    font-size: 1.1em;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.result.wrong {
+    font-size: 1.1em;
+    padding: 10px;
+    background-color: #e53935;
+    color: white;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
 .container {
     max-width: 600px;
     margin: 50px auto;
@@ -23,14 +41,6 @@ h1 {
 .question {
     font-size: 1.2em;
     margin: 20px 0;
-}
-
-.result {
-    font-size: 1.1em;
-    padding: 10px;
-    background: #e2f0d9;
-    border-radius: 5px;
-    margin: 10px 0;
 }
 
 .answer-input {

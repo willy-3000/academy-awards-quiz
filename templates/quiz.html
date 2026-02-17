@@ -17,7 +17,9 @@
         <p class="question">{{ question }}</p>
 
         {% if result %}
-        <p class="result">{{ result }}</p>
+        <p class="result {% if is_correct %}correct{% else %}wrong{% endif %}">
+            {{ result }}
+        </p>
         {% else %}
         <form method="POST" class="quiz-form">
             <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
