@@ -27,9 +27,16 @@ def quiz():
     result = None
 
     if mode == "easy":
-        data = [w for w in winners_data if w["canon_category"] in EASY_CATEGORIES]
+    data = [
+        w for w in winners_data 
+        if w["canon_category"] in EASY_CATEGORIES 
+        and w["winner"] == "True"
+    ]
     else:
-        data = winners_data
+        data = [
+            w for w in winners_data 
+            if w["winner"] == "True"
+        ]
 
     if request.method == "POST":
         # Get submitted data
