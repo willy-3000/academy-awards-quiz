@@ -55,7 +55,10 @@ def quiz():
         # Generate new question only on GET
         question_item = random.choice(data)
         question = f"Who won {question_item['canon_category']} in {question_item['year_ceremony']}?"
-        correct_answer = question_item["name"]
+        if question_item["canon_category"] == "BEST PICTURE":
+            correct_answer = question_item["film"]
+        else:
+            correct_answer = question_item["name"]
         category = question_item["canon_category"]
         year = question_item["year_ceremony"]
         film = question_item["film"]
