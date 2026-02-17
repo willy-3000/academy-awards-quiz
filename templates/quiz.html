@@ -19,21 +19,20 @@
         {% if result %}
         <p class="result">{{ result }}</p>
         {% else %}
-        <form method="POST">
+        <form method="POST" class="quiz-form">
             <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
             <input type="hidden" name="category" value="{{ category }}">
             <input type="hidden" name="year" value="{{ year }}">
             <input type="hidden" name="film" value="{{ film }}">
             <input type="hidden" name="mode" value="{{ mode }}">
-            <input type="text" name="answer" placeholder="Your answer" class="answer-input">
-            <button type="submit" class="submit-btn">Submit</button>
-        </form>
-        {% endif %}
 
-        {% if show_skip %}
-        <div class="skip" onclick="location.reload()">
-            Skip
-        </div>
+            <input type="text" name="answer" placeholder="Your answer" class="answer-input">
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Submit</button>
+                <button type="button" class="skip-btn" onclick="location.reload()">Skip</button>
+            </div>
+        </form>
         {% endif %}
 
         {% if show_next %}
