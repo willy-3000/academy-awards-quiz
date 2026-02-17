@@ -27,6 +27,7 @@ def quiz():
     is_correct = None
     result = None
 
+    # Filter data based on mode
     if mode == "easy":
         data = [
             w for w in winners_data 
@@ -62,36 +63,32 @@ def quiz():
                 result = f"Wrong! The correct answer was {correct_answer_display} ({year})."
             else:
                 result = f"Wrong! The correct answer was {correct_answer_display} for {film}."
-            
 
         show_skip = False
         show_next = True
 
-        # KEEP SAME QUESTION
-        question = request.form.get("question")
-
     else:
-        # Generate new question only on GET
+        # --- Generate a new question ---
         question_item = random.choice(data)
-        if question_item["canon_category"] == "BEST PICTURE":
-            question = f"What film won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
-        else:
-            question = f"Who won the award for {question_item['canon_category']} in {question_item['year_ceremony']}?"
-        if question_item["canon_category"] == "BEST PICTURE":
-            correct_answer = question_item["film"]
-        else:
-            correct_answer = question_item["name"]
         category = question_item["canon_category"]
         year = question_item["year_ceremony"]
         film = question_item["film"]
+        
+        if category == "BEST PICTURE":
+            question = f"What film won the award for {category} in {year}?"
+            correct_answer_display = film
+        else:
+            question = f"Who won the award for {category} in {year}?"
+            correct_answer_display = question_item["name"]
 
+    # Toggle mode labels
     toggle_mode = "hard" if mode == "easy" else "easy"
     toggle_label = "Switch to Hard Mode" if mode == "easy" else "Switch to Easy Mode"
 
     return render_template(
         "quiz.html",
         question=question,
-        correct_answer=correct_answer,
+        correct_answer=correct_answer_display,
         category=category,
         year=year,
         film=film,
@@ -103,6 +100,7 @@ def quiz():
         toggle_mode=toggle_mode,
         toggle_label=toggle_label
     )
+
 
 
 if __name__ == "__main__":
