@@ -40,27 +40,28 @@ def quiz():
         ]
 
     if request.method == "POST":
-        # Get submitted data
-        user_answer = request.form.get("answer", "").strip().lower()
-        correct_answer = request.form.get("correct_answer", "").strip().lower()
+        # --- Get submitted data ---
+        user_answer = request.form.get("answer", "").strip()
+        correct_answer_display = request.form.get("correct_answer", "").strip()  # keep original capitalization
         category = request.form.get("category")
         year = request.form.get("year")
         film = request.form.get("film", "")
+        question = request.form.get("question")  # keep original question text
 
-        is_correct = False
+        # --- Check answer (case-insensitive) ---
+        is_correct = user_answer.lower() == correct_answer_display.lower()
 
-        # Check answer
-        if user_answer == correct_answer:
+        # --- Build result message ---
+        if is_correct:
             if category == "BEST PICTURE":
-                result = f"Correct! {correct_answer} won in {year}."
+                result = f"Correct! {correct_answer_display} won in {year}."
             else:
-                result = f"Correct! {correct_answer} won in {year} for {film}."
+                result = f"Correct! {correct_answer_display} won in {year} for {film}."
         else:
             if category == "BEST PICTURE":
-                result = f"Wrong! The correct answer was {correct_answer} ({year})."
+                result = f"Wrong! The correct answer was {correct_answer_display} ({year})."
             else:
-                result = f"Wrong! The correct answer was {correct_answer} for {film}."
-
+                result = f"Wrong! The correct answer was {correct_answer_display} for {film}."
             
 
         show_skip = False
